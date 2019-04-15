@@ -40,6 +40,10 @@ class sealasperlas {
 	{
 		add_action( 'plugins_loaded', array('sealasperlas', 'load_plugin_textdomain'));
 		
+		require_once plugin_dir_path(__FILE__).'gateways/settings.php';
+		
+		$settings = new sealasperlas_settings();
+		
 		if(is_admin())
 		{
 			require_once plugin_dir_path( __FILE__ ).'admin/admin.php';
@@ -52,18 +56,27 @@ class sealasperlas {
 		}
 	}
 	
+	public static function deposit()
+	{
+		return 10;
+	}
+	
+	public static function commission()
+	{
+		return 10;
+	}	
+	
 	public static function destinations()
 	{
 		$output = array();
 		array_push($output, array(__('Panama City', 'sealasperlas'), 11));
-		array_push($output, array(__('Contadora Island', 'sealasperlas'), 9));
-		array_push($output, array(__('Viveros Island', 'sealasperlas'), 10));
-		array_push($output, array(__('San Miguel Island', 'sealasperlas'), 12));
-		array_push($output, array(__('Saboga Island', 'sealasperlas'), 13));
-		array_push($output, array(__('Bolanos Island', 'sealasperlas'), 15));
+		array_push($output, array(__('Contadora Island', 'sealasperlas'), 9, array(49, 39)));
+		array_push($output, array(__('Viveros Island', 'sealasperlas'), 10, array(49, 39)));
+		array_push($output, array(__('San Miguel Island', 'sealasperlas'), 12, array(49, 39)));
+		array_push($output, array(__('Saboga Island', 'sealasperlas'), 13, array(49, 39)));
+		array_push($output, array(__('Bolanos Island Day Pass', 'sealasperlas'), 15, array(67.5, 55)));
 		return $output;
 	}
-		
 	
 	public static function load_plugin_textdomain()
 	{

@@ -18,6 +18,17 @@ class sealasperlas_public
 		ob_end_clean();
 		return $output;
 	}
+
+	public static function itinerary()
+	{
+		$output = null;
+		ob_start();
+		require_once plugin_dir_path( __FILE__ ).'itinerary.php';
+		$output = ob_get_contents();
+		ob_end_clean();
+		echo $output;
+	}	
+	
 	public static function css()
 	{
 		wp_enqueue_style('minimalLayout', plugin_dir_url( __FILE__ ) . 'css/minimal-layout.css', array(), '', 'all');
@@ -26,6 +37,8 @@ class sealasperlas_public
 	public static function scripts()
 	{
 		wp_add_inline_script('picker-legacy', self::js(), 'after');
+		wp_add_inline_script('jquery', 'function sea_rates(){ return '.json_encode(sealasperlas::destinations()).';}', 'after');
+		wp_add_inline_script('jquery', 'function sea_com(){ return '.esc_html(sealasperlas::commission()).';}', 'after');
 	}	
 	
 	public static function option_destinations($option = false)
