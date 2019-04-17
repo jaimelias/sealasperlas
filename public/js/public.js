@@ -3,6 +3,7 @@ $(function(){
 	
 	if($(sea_form).length > 0)
 	{
+		sea_populate(sea_form);
 		sea_route(sea_form);
 		sea_passengers(sea_form);
 		sea_roundtrip(sea_form);
@@ -11,8 +12,36 @@ $(function(){
 		sea_passengers_txt();
 		//editing
 		sea_price_build();
+
+		if(typeof sea_url !== typeof undefined)
+		{
+			sea_country_dropdown(sea_url(), $("html").attr("lang").slice(0, -3));
+		}		
+		
 	}
 });
+
+function sea_populate(sea_form)
+{
+	var input = $(sea_form).find('input');
+	input = $(input).add($(sea_form).find('textarea'));
+	
+	$(input).each(function(){
+		
+		if (typeof(Storage) !== 'undefined')
+		{
+			var name = $(this).attr('name');
+			
+			if (typeof name !== typeof undefined && name !== false)
+			{
+				if(sessionStorage.getItem(name) != null && sessionStorage.getItem(name) != '')
+				{
+					$(this).val(sessionStorage.getItem(name));
+				}
+			}
+		}
+	});
+}
 
 function sea_price_build()
 {
@@ -108,46 +137,50 @@ function sea_build_itinerary(obj, sea_fieldset)
 		{
 			if(obj.departure.location != '' && obj.departure.date != '' && (obj.departure.hour != '' || obj.departure.hour != '--'))
 			{
-				var template = $.parseHTML($('#sea_itinerary_html').html());
-				var clone = $(template).clone();
+				var html = $('#sea_itinerary_html')[0];
+				var template = $.parseHTML($(html).html());
 				
-				$(clone).find('.sea_deparute_l').text(obj.departure.location);
-				$(clone).find('.sea_deparute_d').text(obj.departure.date);
-				$(clone).find('.sea_deparute_h').text(obj.departure.hour);
-				$(clone).find('.sea_return_l').text(obj.return.location);
+				$(template).find('.sea_deparute_l').text(obj.departure.location);
+				$(template).find('.sea_deparute_d').text(obj.departure.date);
+				$(template).find('.sea_deparute_h').text(obj.departure.hour);
+				$(template).find('.sea_return_l').text(obj.return.location);
 								
 				if(obj.hasOwnProperty('return'))
 				{
 					if(obj.return.hasOwnProperty('date'))
 					{
-						$(clone).find('.sea_return').removeClass('hidden');
-						$(clone).find('.sea_return_d').text(obj.return.date);
-						$(clone).find('.sea_return_h').text(obj.return.hour);
+						$(template).find('.sea_return').removeClass('hidden');
+						$(template).find('.sea_return_d').text(obj.return.date);
+						$(template).find('.sea_return_h').text(obj.return.hour);
 					}					
 				}
 				
 				//count				
-				$(clone).find('.adult_count').text($(sea_fieldset).find('[name="s_adults"] option:selected').text());
-				$(clone).find('.free_count').text($(sea_fieldset).find('[name="s_free"] option:selected').text());
-				$(clone).find('.discount_count').text($(sea_fieldset).find('[name="s_discount"] option:selected').text());
+				$(template).find('.adult_count').text($(sea_fieldset).find('[name="s_adults"] option:selected').text());
+				$(template).find('.free_count').text($(sea_fieldset).find('[name="s_free"] option:selected').text());
+				$(template).find('.discount_count').text($(sea_fieldset).find('[name="s_discount"] option:selected').text());
 				
 				if($(sea_fieldset).find('[name="s_discount"] option:selected').text() == 0)
 				{
-					$(clone).find('.sea_table_discount').remove();
+					$(template).find('.sea_table_discount').remove();
 				}
 				
 				if($(sea_fieldset).find('[name="s_free"] option:selected').text() == 0)
 				{
-					$(clone).find('.sea_table_free').remove();
+					$(template).find('.sea_table_free').remove();
 				}
 				
 
 				//totals
-				$(clone).find('.adult_total').text('$'+obj.adult+' USD');
-				$(clone).find('.discount_total').text('$'+obj.discount+' USD');
-				$(clone).find('.free_total').text('$'+obj.free+' USD');
+				$(template).find('.adult_total').text('$'+obj.adult+' USD');
+				$(template).find('.discount_total').text('$'+obj.discount+' USD');
+				$(template).find('.free_total').text('$'+obj.free+' USD');
 				
-				$('.sea_itinerary_display').html(clone);
+				
+				$('.sea_itinerary_display').each(function(){
+					var clone = $("<div />").append($(template).clone()).html();
+					$(this).html(clone);
+				});
 			}
 			else
 			{
@@ -207,6 +240,16 @@ function sea_passengers_build()
 		$(clone).find('.s_p_name').attr({'data-id': 's_p_'+x+'_name'});
 		$(clone).find('.s_p_id').attr({'data-id': 's_p_'+x+'_id'});
 		$(clone).find('.s_p_age').attr({'data-id': 's_p_'+x+'_age'});
+		
+		//get val
+		if (typeof(Storage) !== "undefined")
+		{
+			//get passenger list with no name
+			$(clone).find('.s_p_name').val(sessionStorage.getItem('s_p_'+x+'_name'));
+			$(clone).find('.s_p_id').val(sessionStorage.getItem('s_p_'+x+'_id'));
+			$(clone).find('.s_p_age').val(sessionStorage.getItem('s_p_'+x+'_age'));					
+		}		
+		
 		
 		$(clone).appendTo(output);
 	}
@@ -485,8 +528,12 @@ function sea_validate_fieldset(fieldset)
 	var inputs = $(fieldset).find('input');
 	inputs = $(inputs).add($(fieldset).find('select'));
 	inputs = $(inputs).add($(fieldset).find('textarea'));
+	var exclude = ['channel'];
 	
-	$(inputs).each(function(){
+	$(inputs).each(function()
+	{
+		var exclude_storage = ['CCNum', 'CVV2', 'sea_recaptcha', 'sea_pax', 's_passengers'];
+		var name = $(this).attr('name');
 		
 		if($(this).val() == '')
 		{
@@ -496,14 +543,16 @@ function sea_validate_fieldset(fieldset)
 			}
 			else
 			{
-				invalids++;
-				$(this).addClass('invalid_field');
-				fields.push($(this).attr('name')+ ' invalid');			
+				if(exclude.includes($(this).attr('name')))
+				{
+					invalids++;
+					$(this).addClass('invalid_field');
+					fields.push($(this).attr('name')+ ' invalid');					
+				}
 			}
 		}
 		else
 		{
-			
 			if($(this).val() == '--')
 			{
 				if($(fieldset).find('[name="s_ferry"]').val() == 0 && $(this).attr('name') == 's_return_hour')
@@ -512,14 +561,39 @@ function sea_validate_fieldset(fieldset)
 				}
 				else
 				{
-					invalids++;
-					$(this).addClass('invalid_field');
-					fields.push($(this).attr('name')+ ' invalid');			
+					if(exclude.includes($(this).attr('name')))
+					{
+						invalids++;
+						$(this).addClass('invalid_field');
+						fields.push($(this).attr('name')+ ' invalid');						
+					}
 				}
 			}	
 			else
 			{
 				$(this).removeClass('invalid_field');
+				
+				//save val
+				if (typeof(Storage) !== 'undefined')
+				{
+					//save passenger list with no name
+					var dataid = $(this).attr('data-id');
+					
+					if (typeof dataid !== typeof undefined && dataid !== false)
+					{
+						sessionStorage.setItem(dataid, $(this).val());
+					}
+
+					//var save inputs with name
+					
+					if (typeof name !== typeof undefined && name !== false)
+					{
+						if(!exclude_storage.includes(name))
+						{
+							sessionStorage.setItem(name, $(this).val());
+						}
+					}
+				}
 			}
 		}
 	});
@@ -533,5 +607,61 @@ function sea_validate_fieldset(fieldset)
 	else{
 		//console.log(fields);
 		return false;
+	}
+}
+
+function sea_country_dropdown(url, lang)
+{
+	$(window).on('load', function (e) {
+		
+		if($('.countrylist').length > 0)
+		{
+			$.getJSON( url + 'languages/countries/'+lang+'.json')
+				.done(function(data) 
+				{
+					sea_country_options(data);
+				})
+				.fail(function()
+				{
+					$.getJSON(url + 'languages/countries/en.json', function(data) {
+
+						sea_country_options(data);
+					});				
+				});
+		}		
+	});
+}
+
+function sea_country_options(data)
+{
+	$('.countrylist').each(function() {
+		for (var x = 0; x < data.length; x++) 
+		{
+			$(this).append('<option value=' + data[x][0] + '>' + data[x][1] + '</option>');
+		}
+	});		
+}
+
+
+function sea_recaptcha()
+{	
+	var args = {};
+	args.sitekey = sea_recaptcha_key();
+	args.isolated = true;
+	args.badge = 'inline';
+	var sea_checkout_widget;
+	
+	if($('#sealasperlas_quote').length)
+	{
+		args.callback = function(token){
+			return new Promise(function(resolve, reject) { 
+				if(sea_validate_checkout(token) == false)
+				{
+					grecaptcha.reset(sea_checkout_widget);
+				}
+				resolve();
+			});
+		};
+		sea_checkout_widget = grecaptcha.render('sea_confirm_checkout', args);
 	}
 }

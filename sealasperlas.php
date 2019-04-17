@@ -39,6 +39,7 @@ class sealasperlas {
 	function __construct()
 	{
 		add_action( 'plugins_loaded', array('sealasperlas', 'load_plugin_textdomain'));
+
 		
 		require_once plugin_dir_path(__FILE__).'gateways/settings.php';
 		
@@ -85,7 +86,12 @@ class sealasperlas {
 			false,
 			dirname( dirname( plugin_basename( __FILE__ ) ) ) . '/languages/'
 		);		
-	}
+	}	
+}
+
+function sea_has_shortcode()
+{
+	return sealasperlas_public::has_shortcode();
 }
 
 function run_sealasperlas()

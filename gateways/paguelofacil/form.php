@@ -1,12 +1,9 @@
 <div class="sea_checkout_cc hidden">
-	<input type="hidden" name="sea_recaptcha" />
-
-	<div class="text-center text-muted bottom-20" style="font-size: 3em;">
-	<i class="fab fa-cc-visa" ></i> <i class="fab fa-cc-mastercard" ></i>
-	</div>		
+	
 
 	<div class="hidden">
-	<input type="text" name="channel" class="channel" value="channel" />
+		<input type="text" name="sea_recaptcha" />
+		<input type="text" name="channel" class="channel" value="channel" />
 	</div>
 
 	<fieldset>
@@ -14,7 +11,7 @@
 		<div class="pure-g gutters">
 			<div class="pure-u-1 pure-u-md-1-2">
 				<label for="name"><?php echo esc_html(__('Name', 'sealasperlas')); ?></label>
-				<input type="text" name="name" class="bottom-20" />
+				<input type="text" name="fname" class="bottom-20" />
 			</div>
 			<div class="pure-u-1 pure-u-md-1-2">
 				<label for="lastname"><?php echo esc_html(__('Last Name', 'sealasperlas')); ?></label>
@@ -47,8 +44,6 @@
 		</div>	
 					
 	</fieldset>
-
-
 
 	<fieldset>
 	<h3><?php echo esc_html(__('Billing Details', 'sealasperlas')); ?></h3>
@@ -87,7 +82,7 @@
 			</div>
 		</div>
 	</fieldset>		
-
-	<p><button type="submit" class="pure-button pure-button-primary width-100 block"><?php echo esc_html(__('Pay Deposit', 'sealasperlas')); ?></button></p>
 	
+	<p><button id="sea_confirm_checkout" type="button" class="pure-button pure-button-primary width-100 block"><?php echo esc_html(__('Pay Deposit', 'sealasperlas')); ?></button></p>
+
 </div>
