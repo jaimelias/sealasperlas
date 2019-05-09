@@ -1,0 +1,258 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Sea Las Perlas\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-05-03 20:39+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: \n"
+"Language: \n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Loco https://localise.biz/\n"
+"X-Loco-Version: 2.2.2; wp-5.1.1"
+
+#: public/itinerary.php:37 public/quote.php:40
+msgid "0 to 4 Years Old"
+msgstr ""
+
+#: public/itinerary.php:32 public/quote.php:47
+msgid "5 to 11 Years Old"
+msgstr ""
+
+#: gateways/paguelofacil/form.php:42
+msgid "Address"
+msgstr ""
+
+#: public/itinerary.php:27 public/quote.php:57
+msgid "Adults"
+msgstr ""
+
+#: public/passengers.php:12 public/passengers.php:13
+msgid "Age"
+msgstr ""
+
+#: public/quote.php:108 public/quote.php:119
+msgid "Back"
+msgstr ""
+
+#: gateways/paguelofacil/form.php:50
+msgid "Billing Details"
+msgstr ""
+
+#: public/quote.php:13 public/quote.php:118
+msgid "Book Now"
+msgstr ""
+
+#: public/quote.php:20
+msgid "Booking Details"
+msgstr ""
+
+#: gateways/paguelofacil/paguelofacil.php:141
+#: gateways/paguelofacil/paguelofacil.php:160
+msgid "Checkout Page"
+msgstr ""
+
+#: gateways/paguelofacil/form.php:38
+msgid "City"
+msgstr ""
+
+#: gateways/paguelofacil/form.php:11
+msgid "Contact Details"
+msgstr ""
+
+#: sealasperlas.php:69
+msgid "Contadora Island"
+msgstr ""
+
+#: public/quote.php:98 public/quote.php:108
+msgid "Continue"
+msgstr ""
+
+#: gateways/paguelofacil/form.php:34
+msgid "Country"
+msgstr ""
+
+#: gateways/paguelofacil/form.php:51
+msgid "Credit Card Number"
+msgstr ""
+
+#: public/itinerary.php:5
+msgid "Departure"
+msgstr ""
+
+#: public/itinerary.php:6 public/quote.php:73
+msgid "Departure Date"
+msgstr ""
+
+#: public/itinerary.php:7 public/quote.php:77
+msgid "Departure Hour"
+msgstr ""
+
+#: public/itinerary.php:20
+msgid "Description"
+msgstr ""
+
+#: public/quote.php:30
+msgid "Destination"
+msgstr ""
+
+#: gateways/paguelofacil/form.php:24
+msgid "Email"
+msgstr ""
+
+#: gateways/paguelofacil/form.php:56
+msgid "Expiration Month"
+msgstr ""
+
+#: gateways/paguelofacil/form.php:70
+msgid "Expiration Year"
+msgstr ""
+
+#: public/quote.php:63
+msgid "Ferry"
+msgstr ""
+
+#: public/passengers.php:4 public/passengers.php:5
+msgid "Full Name"
+msgstr ""
+
+#. URI of the plugin
+msgid "https://github.com/jaimelias/sealasperlas"
+msgstr ""
+
+#. Author URI of the plugin
+msgid "https://jaimelias.com"
+msgstr ""
+
+#: gateways/paguelofacil/validators.php:144
+msgid "Invalid Credit Card Number. We only accept Visa or Mastercard."
+msgstr ""
+
+#: gateways/paguelofacil/validators.php:152
+msgid ""
+"Invalid CVV. Check the numbers on the back numbers. We only accept Visa or "
+"Mastercard."
+msgstr ""
+
+#: gateways/paguelofacil/validators.php:211
+msgid "Invalid Recaptcha"
+msgstr ""
+
+#: gateways/paguelofacil/validators.php:216
+msgid "Invalid Recaptcha is NULL."
+msgstr ""
+
+#. Author of the plugin
+msgid "Jaimelias"
+msgstr ""
+
+#: gateways/paguelofacil/form.php:18
+msgid "Last Name"
+msgstr ""
+
+#: gateways/paguelofacil/form.php:14
+msgid "Name"
+msgstr ""
+
+#: public/itinerary.php:21
+msgid "Number"
+msgstr ""
+
+#: public/quote.php:66
+msgid "One way"
+msgstr ""
+
+#: public/quote.php:24
+msgid "Origin"
+msgstr ""
+
+#: sealasperlas.php:68 public/public.php:98
+msgid "Panama City"
+msgstr ""
+
+#: public/passengers.php:1
+msgid "Passenger"
+msgstr ""
+
+#: public/passengers.php:8 public/passengers.php:9
+msgid "Passport / Identification"
+msgstr ""
+
+#: gateways/paguelofacil/form.php:87
+msgid "Pay Deposit"
+msgstr ""
+
+#: gateways/paguelofacil/paguelofacil.php:57
+msgid ""
+"Payment Declined. Please contact your bank to authorize the transaction."
+msgstr ""
+
+#: gateways/paguelofacil/form.php:28
+msgid "Phone"
+msgstr ""
+
+#: gateways/paguelofacil/validators.php:221
+msgid "Recaptcha not sent."
+msgstr ""
+
+#: public/itinerary.php:10
+msgid "Return"
+msgstr ""
+
+#: public/itinerary.php:11 public/quote.php:87
+msgid "Return Date"
+msgstr ""
+
+#: public/itinerary.php:12 public/quote.php:91
+msgid "Return Hour"
+msgstr ""
+
+#: public/quote.php:65
+msgid "Round trip"
+msgstr ""
+
+#: sealasperlas.php:71
+msgid "Saboga Island"
+msgstr ""
+
+#. Name of the plugin
+msgid "Sea Las Perlas"
+msgstr ""
+
+#: public/itinerary.php:22
+msgid "Subtotal"
+msgstr ""
+
+#. Description of the plugin
+msgid ""
+"This is a short description of what the plugin does. It's displayed in the "
+"WordPress admin area."
+msgstr ""
+
+#: public/itinerary.php:44
+msgid "Total"
+msgstr ""
+
+#: gateways/paguelofacil/paguelofacil.php:61
+msgid "Undefined Checkout Error"
+msgstr ""
+
+#: gateways/paguelofacil/paguelofacil.php:73
+msgid "Undefined Checkout Error. OBJ not an Array."
+msgstr ""
+
+#: gateways/paguelofacil/paguelofacil.php:67
+msgid "Undefined Checkout Error. Status not defined."
+msgstr ""
+
+#: sealasperlas.php:70
+msgid "Viveros Island"
+msgstr ""
+
+#: public/quote.php:13 public/quote.php:118
+msgid "We accept"
+msgstr ""

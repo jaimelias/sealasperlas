@@ -57,15 +57,10 @@ class sealasperlas {
 		}
 	}
 	
-	public static function deposit()
-	{
-		return 10;
-	}
-	
 	public static function commission()
 	{
-		return 10;
-	}	
+		return 25;
+	}
 	
 	public static function destinations()
 	{
@@ -73,9 +68,7 @@ class sealasperlas {
 		array_push($output, array(__('Panama City', 'sealasperlas'), 11));
 		array_push($output, array(__('Contadora Island', 'sealasperlas'), 9, array(49, 39)));
 		array_push($output, array(__('Viveros Island', 'sealasperlas'), 10, array(49, 39)));
-		array_push($output, array(__('San Miguel Island', 'sealasperlas'), 12, array(49, 39)));
 		array_push($output, array(__('Saboga Island', 'sealasperlas'), 13, array(49, 39)));
-		array_push($output, array(__('Bolanos Island Day Pass', 'sealasperlas'), 15, array(67.5, 55)));
 		return $output;
 	}
 	
@@ -84,7 +77,7 @@ class sealasperlas {
 		load_plugin_textdomain(
 			'sealasperlas',
 			false,
-			dirname( dirname( plugin_basename( __FILE__ ) ) ) . '/languages/'
+			dirname( plugin_basename( __FILE__ )). '/languages/'
 		);		
 	}	
 }

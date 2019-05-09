@@ -1,19 +1,24 @@
 	<div class="pure-g gutters">
-		<div class="pure-u-1 pure-u-md-1-3">
+		<div class="pure-u-1 pure-u-lg-1-2">
 			<div class="sea_itinerary">
-				<p class="sea_deparute">
-					<strong><?php echo esc_html(__('Departure', 'sealasperlas')); ?>:</strong> <span class="sea_deparute_l"></span> <?php echo esc_html('to'); ?> <span class="sea_return_l"></span><br/>
+				<p class="sea_departure">
+					<strong><?php echo esc_html(__('Departure', 'sealasperlas')); ?>:</strong> <span class="sea_deparute_l"></span> - <span class="sea_return_l"></span><br/>
 					<strong><?php echo esc_html(__('Departure Date', 'sealasperlas')); ?>:</strong> <span class="sea_deparute_d"></span></br>
 					<strong><?php echo esc_html(__('Departure Hour', 'sealasperlas')); ?>:</strong> <span class="sea_deparute_h"></span>
 				</p>
-				<p class="sea_return hidden">
-					<strong><?php echo esc_html(__('Return', 'sealasperlas')); ?>:</strong> <span class="sea_return_l"></span><br/>
-					<strong><?php echo esc_html(__('Return Date', 'sealasperlas')); ?>:</strong> <span class="sea_return_d"></span></br>
-					<strong><?php echo esc_html(__('Return Hour', 'sealasperlas')); ?>:</strong> <span class="sea_return_h"></span>				
-				</p>
 			</div>
 		</div>
-		<div class="pure-u-1 pure-u-md-2-3">
+		<div class="pure-u-1 pure-u-lg-1-2">
+			<p class="sea_return hidden">
+				<strong><?php echo esc_html(__('Return', 'sealasperlas')); ?>:</strong> <span class="sea_return_l"></span> - <span class="sea_deparute_l"></span><br/>
+				<strong><?php echo esc_html(__('Return Date', 'sealasperlas')); ?>:</strong> <span class="sea_return_d"></span></br>
+				<strong><?php echo esc_html(__('Return Hour', 'sealasperlas')); ?>:</strong> <span class="sea_return_h"></span>				
+			</p>	
+		</div>
+	</div>
+	
+	<hr/>
+	
 			<table class="sea_table small text-center pure-table pure-table-bordered uppercase">
 				<thead>
 					<tr>
@@ -41,14 +46,9 @@
 				</tbody>
 				<tfoot class="strong">
 					<tr>
-						<th colspan="3"><?php echo esc_html(__('Total', 'sealasperlas')); ?> = <span class="sea_table_total"></span></th>
-					</tr>
-					<tr>
-						<th colspan="3" class="large strong"><?php echo esc_html(sealasperlas::deposit().'% '.__('Deposit', 'sealasperlas')); ?> = <span class="sea_table_deposit"></span></th>
-					</tr>				
+						<th colspan="3" class="strong"><?php echo esc_html(__('Total', 'sealasperlas')); ?> = <span class="sea_table_total"></span></th>
+					</tr>			
 				</tfoot>
 			</table>	
-		</div>
-	</div>
-	
-	<hr/>
+			
+<hr/>			

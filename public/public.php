@@ -5,8 +5,8 @@ class sealasperlas_public
 	function __construct()
 	{
 		add_shortcode('sealasperlas', array('sealasperlas_public', 'form'));
-		add_action( 'wp_enqueue_scripts', array('sealasperlas_public', 'css'));
-		add_action( 'wp_enqueue_scripts', array('sealasperlas_public', 'scripts'));		
+		add_action('wp_enqueue_scripts', array('sealasperlas_public', 'css'));
+		add_action('wp_enqueue_scripts', array('sealasperlas_public', 'scripts'), 11);
 	}
 	public static function form()
 	{
@@ -50,6 +50,8 @@ class sealasperlas_public
 	
 	public static function scripts()
 	{
+		self::cf7_dequeue_recaptcha();
+		
 		if(sea_has_shortcode())
 		{
 			self::datepickerJS();
@@ -57,11 +59,9 @@ class sealasperlas_public
 			wp_enqueue_script('sealasperlas', plugin_dir_url( __FILE__ ) . 'js/public.js', array('jquery', 'landing-cookies'), time(), true);
 			wp_add_inline_script('sealasperlas', 'function sea_rates(){ return '.json_encode(sealasperlas::destinations()).';}', 'before');
 			wp_add_inline_script('sealasperlas', 'function sea_url(){ return "'.esc_url(plugin_dir_url(dirname(__FILE__) )).'";}', 'before');
-			wp_add_inline_script('sealasperlas', 'function sea_com(){ return '.esc_html(sealasperlas::commission()).';}', 'before');
-			
-			wp_dequeue_script('google-recaptcha');
-			wp_enqueue_script('sea_recaptcha', 'https://www.google.com/recaptcha/api.js?onload=sea_recaptcha&render=explicit', array('sealasperlas'), 'async_defer', true);
 			wp_add_inline_script('sealasperlas', 'function sea_recaptcha_key(){ return "'.esc_html(get_option('captcha_site_key')).'";}', 'before');
+			wp_add_inline_script('sealasperlas', 'function sea_com(){ return '.esc_html(sealasperlas::commission()).';}', 'before');
+			wp_enqueue_script('sea_recaptcha', 'https://www.google.com/recaptcha/api.js?onload=sea_recaptcha&render=explicit', array('sealasperlas'), 'async_defer', true);	
 		}
 	}
 	public static function datepickerCSS()
@@ -161,6 +161,25 @@ class sealasperlas_public
 		$output = ob_get_contents();
 		ob_end_clean();
 		return $output;	
+	}
+	public static function cf7_dequeue_recaptcha()
+	{
+		$dequeu = true;
+		
+		if(is_singular())
+		{
+			global $post;
+			
+			if(has_shortcode($post->post_content, 'contact-form-7'))
+			{
+				$dequeu = false;
+			}
+		}
+		
+		if($dequeu === true)
+		{
+			wp_dequeue_script('google-recaptcha');
+		}
 	}	
 }
 
