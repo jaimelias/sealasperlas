@@ -20,7 +20,7 @@
 	<hr/>
 	
 			<table class="sea_table small text-center pure-table pure-table-bordered uppercase">
-				<thead>
+				<thead class="small">
 					<tr>
 						<th><?php echo esc_html(__('Description', 'sealasperlas')); ?></th>
 						<th><?php echo esc_html(__('Number', 'sealasperlas')); ?></th>
@@ -49,6 +49,5 @@
 						<th colspan="3" class="strong"><?php echo esc_html(__('Total', 'sealasperlas')); ?> = <span class="sea_table_total"></span></th>
 					</tr>			
 				</tfoot>
-			</table>	
-			
+			</table>
 <hr/>			

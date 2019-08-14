@@ -14,21 +14,25 @@ class sea_paguelofacil
 		//checkout
 		add_filter('the_content', array('sea_paguelofacil', 'content'), 100);
 		add_filter('template_include', array('sea_paguelofacil', 'template'), 10);
-		add_filter( 'pre_get_document_title',  array('sea_paguelofacil', 'wp_title'));
-		add_filter( 'wp_title', array('sea_paguelofacil', 'wp_title'));
-		add_filter( 'the_title', array('sea_paguelofacil', 'the_title'));
+		add_filter( 'pre_get_document_title',  array('sea_paguelofacil', 'wp_title'), 100);
+		add_filter( 'wp_title', array('sea_paguelofacil', 'wp_title'), 100);
+		add_filter( 'the_title', array('sea_paguelofacil', 'the_title'), 100);
 		add_action('pre_get_posts', array('sea_paguelofacil', 'wp_main_query'), 100);
 		add_filter( 'query_vars', array('sea_paguelofacil', 'query_vars'));
 		add_action('init', array('sea_paguelofacil', 'rewrite'));
 		add_action('init', array('sea_paguelofacil', 'rewrite_tag'), 10, 0);
 	}
+	
+	public static function buttons()
+	{
+		echo '<button type="button" class="pure-button pure-button-primary sea_bycard">'.esc_html(__('Pay by card', 'sealasperlas')).'</button>';
+	}	
 
 	public static function process_payment()
 	{
 		$headers = array();
 		array_push($headers, 'Content-Type: application/x-www-form-urlencoded');
 		array_push($headers, 'Accept: */*');
-		//$gateway_url = 'https://aeroalbrook.com/test.php';
 		$gateway_url = 'https://secure.paguelofacil.com/rest/ccprocessing';
 		$data = http_build_query(self::payment_obj());
 		
@@ -167,11 +171,6 @@ class sea_paguelofacil
 	{
 		require_once plugin_dir_path( __FILE__ ).'validators.php';
 		$validators = new sealasperlas_validators();
-	}	
-	
-	public static function buttons()
-	{
-		echo '<button type="button" class="pure-button pure-button-primary sea_bycard">'.esc_html('Pay by card', 'sealasperlas').'</button>';
 	}
 	
 	public static function scripts()
@@ -200,7 +199,7 @@ class sea_paguelofacil
 	
 	public static function icons()
 	{
-		echo ' <i class="fab fa-cc-visa"></i> <i class="fab fa-cc-mastercard"></i>';
+		echo '<img width="200" height="40" alt="visa mastercard logo svg" src="'.plugin_dir_url( __FILE__ ).'img/payment.svg" />';
 	}
 	
 	public static function template($template)

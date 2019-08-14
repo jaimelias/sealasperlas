@@ -43,7 +43,7 @@ class sealasperlas_public
 		if(sea_has_shortcode())
 		{
 			wp_enqueue_style('minimalLayout', plugin_dir_url( __FILE__ ) . 'css/minimal-layout.css', array(), '', 'all');	
-			wp_add_inline_style('minimalLayout', '.grecaptcha-badge{margin: 0 0 20px 0;}');
+			wp_add_inline_style('minimalLayout', '.grecaptcha-badge{margin: 0 0 20px 0;}ul#sea_accordion > li > ul > li:not(:first-child){display: none;}');
 			self::datepickerCSS();
 		}
 	}

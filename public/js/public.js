@@ -12,6 +12,8 @@ $(function(){
 		sea_passengers_txt();
 		//editing
 		sea_price_build();
+		sea_focus_form(sea_form);
+		sea_accordion();
 
 		if(typeof sea_url !== typeof undefined)
 		{
@@ -20,6 +22,19 @@ $(function(){
 		
 	}
 });
+
+function sea_steps(label)
+{
+	if(typeof ga !== typeof undefined)
+	{
+		var lang = $('html').attr('lang').slice(0, -3);
+		var eventArgs = {};
+		eventArgs.eventAction = 'click';
+		eventArgs.eventLabel = lang;
+		eventArgs.eventCategory = label;
+		ga('send', 'event', eventArgs);
+	}
+}
 
 function sea_populate(sea_form)
 {
@@ -51,7 +66,9 @@ function sea_price_build()
 	input = $(input).add($(sea_fieldset).find('input'));
 	
 	$(input).change(function(){
-	
+		
+		var this_field = $(this);
+		
 		setTimeout(function(){
 			
 			var rates = sea_rates();
@@ -63,38 +80,70 @@ function sea_price_build()
 			var route = parseFloat($('[name="s_ferry"]').val());
 			var output = {};
 			
+			//reset dates
+			if($(this_field).attr('name') == 's_origin' || $(this_field).attr('name') == 's_destination')
+			{
+				$('[name="s_departure_date"]').val('');
+				$('[name="s_return_date"]').val('');
+				
+				if (typeof(Storage) !== "undefined")
+				{
+					sessionStorage.removeItem('s_departure_date');
+					sessionStorage.removeItem('s_return_date');									
+				}
+			}
+			
+			//reset return if one way
+			if($(this_field).attr('name') == 's_ferry')
+			{
+				if($(this_field).val() == 0)
+				{
+					$('[name="s_return_date"]').val('');
+					$('[name="s_return_hour"]').find('option:selected').removeAttr('selected');
+					
+					if (typeof(Storage) !== "undefined")
+					{
+						sessionStorage.removeItem('s_return_hour');
+						sessionStorage.removeItem('s_return_date');						
+					}
+				}
+			}
+			
 			for(var x = 0; x < rates.length; x++)
 			{
 				if(rates[x][1] != 11 && typeof rates[x][2] != 'undefined')
 				{
 					if(rates[x][1] == origin || rates[x][1] == destination)
 					{
+						output.free = 0;
 						output.adult = rates[x][2][0];
+						output.adult = output.adult * adult;
+						output.adult = (output.adult / ((100 - sea_com()) / 100));					
 						
-						output.free = 0;	
-						
-						if(adult > 1)
+						if(discount >= 1)
 						{
-							output.adult = output.adult * adult;
-						}						
-						
-						if(discount => 1)
-						{
-							output.discount = rates[x][2][1];
-							output.discount = output.discount * discount;
+							output.discount = rates[x][2][1] * discount;
+							output.discount = (output.discount / ((100 - sea_com()) / 100));
 						}
 						
 						if(route == 1)
 						{
 							output.adult = output.adult * 2;
-							output.discount = output.discount * 2;
+							
+							if(discount >= 1)
+							{
+								output.discount = output.discount * 2;
+							}
 						}
 						
-						output.adult = (output.adult / ((100 - sea_com()) / 100)) * .9;
-						output.discount = (output.discount / ((100 - sea_com()) / 100)) * .9;
-						output.adult = parseFloat(output.adult.toFixed(2));
-						output.discount = parseFloat(output.discount.toFixed(2));						
 						
+						
+						output.adult = parseFloat(output.adult.toFixed(2));
+						
+						if(discount >= 1)
+						{
+							output.discount = parseFloat(output.discount.toFixed(2));	
+						}
 						
 						//departure
 						output.departure = {};					
@@ -113,11 +162,15 @@ function sea_price_build()
 						}
 						
 						//console.log(output);
-		
 						
-						var total = output.adult + output.discount;
+						var total = output.adult;
+						
+						if(discount >= 1)
+						{
+							total = total + output.discount;
+						}
+						
 						output.total = total;
-			
 						sea_build_itinerary(output, sea_fieldset);
 					}
 				}
@@ -137,6 +190,33 @@ function sea_build_itinerary(obj, sea_fieldset)
 				var html = $('#sea_itinerary_html')[0];
 				var template = $.parseHTML($(html).html());
 				
+				var count_adults = $(sea_fieldset).find('[name="s_adults"] option:selected').text();
+				var count_discount = $(sea_fieldset).find('[name="s_discount"] option:selected').text();
+				var count_free = $(sea_fieldset).find('[name="s_free"] option:selected').text();
+				
+				if(count_adults > 0)
+				{
+					count_adults = parseInt(count_adults);
+				}
+				
+				if(count_discount > 0)
+				{
+					count_discount = parseInt(count_discount);
+				}
+				else
+				{
+					count_discount = 0;
+				}
+				
+				if(count_free > 0)
+				{
+					count_free = parseInt(count_free);
+				}
+				else
+				{
+					count_free = 0;
+				}				
+				
 				$(template).find('.sea_deparute_l').text(obj.departure.location);
 				$(template).find('.sea_deparute_d').text(obj.departure.date);
 				$(template).find('.sea_deparute_h').text(obj.departure.hour);
@@ -153,25 +233,33 @@ function sea_build_itinerary(obj, sea_fieldset)
 				}
 				
 				//count				
-				$(template).find('.adult_count').text($(sea_fieldset).find('[name="s_adults"] option:selected').text());
-				$(template).find('.free_count').text($(sea_fieldset).find('[name="s_free"] option:selected').text());
-				$(template).find('.discount_count').text($(sea_fieldset).find('[name="s_discount"] option:selected').text());
+				$(template).find('.adult_count').text(count_adults);
+				$(template).find('.free_count').text(count_free);
+				$(template).find('.discount_count').text(count_discount);
 				$(template).find('.sea_table_total').text('$'+obj.total.toFixed(2)+' USD');				
 				
-				if($(sea_fieldset).find('[name="s_discount"] option:selected').text() == 0)
+				if(count_discount == 0)
 				{
 					$(template).find('.sea_table_discount').remove();
 				}
+				else
+				{
+					$(template).find('.discount_total').text('$'+obj.discount+' USD');
+				}
 				
-				if($(sea_fieldset).find('[name="s_free"] option:selected').text() == 0)
+				if(count_free == 0)
 				{
 					$(template).find('.sea_table_free').remove();
+				}
+				else
+				{
+					$(template).find('.free_total').text('$'+obj.free+' USD');
 				}
 
 				//totals
 				$(template).find('.adult_total').text('$'+obj.adult+' USD');
-				$(template).find('.discount_total').text('$'+obj.discount+' USD');
-				$(template).find('.free_total').text('$'+obj.free+' USD');
+				
+				
 				
 				var description = obj.departure.date+' ('+obj.departure.hour+') '+obj.departure.location+'-'+obj.return.location;
 				
@@ -292,6 +380,7 @@ function sea_passengers_txt(html, pax, fieldset, checkout)
 		if(sea_validate_fieldset(fieldset))
 		{
 			$(checkout).removeClass('hidden');
+			sea_steps('Ferry Step 2');
 		}
 	});
 }
@@ -374,6 +463,7 @@ function sea_route(sea_form)
 		if(invalids == 0)
 		{
 			sea_options($('[name="s_origin"]').val(), $('[name="s_destination"]').val(), $('[name="s_ferry"]').val());
+			$('.sea_spinner').removeClass('hidden');
 		}
 		else
 		{
@@ -464,7 +554,8 @@ function sea_dates(origin, destination, route)
 				disabled_dates.departure = [];
 				disabled_dates.return = [];
 				var now = Date.now();
-				
+				var today = new Date();
+								
 				for(var x = 0; x < data.length; x++)
 				{
 					if(data[x].hasOwnProperty('date'))
@@ -484,10 +575,19 @@ function sea_dates(origin, destination, route)
 						}
 					}
 				}
-				
+								
 				var args = {};
 				args.format = 'yyyy-mm-dd';
 				args.min = 1;
+				
+				
+				//adds 1 day more if the clients tries to book the ferry after 3pm si el origin en Ciudad de Panama
+				
+				if(today.getHours() >= 17 && origin == 11)
+				{
+					args.min = 2;
+				}
+				
 				args.disable = disabled_dates.departure;
 								
 				$('[name="s_departure_date"]').pickadate(args);
@@ -495,6 +595,8 @@ function sea_dates(origin, destination, route)
 				
 				$('[name="s_return_date"]').pickadate(args);
 				$('.sea_picker').removeAttr('disabled');
+				
+				$('.sea_spinner').addClass('hidden');
 				
 				//console.log(disabled_dates);	
 			}			
@@ -522,6 +624,7 @@ function sea_fieldset()
 		if(sea_validate_fieldset($(sea_booking)))
 		{
 			$('.sea_passengers').removeClass('hidden');
+			sea_steps('Ferry Step 1');
 		}
 	});
 	
@@ -539,7 +642,8 @@ function sea_validate_fieldset(fieldset)
 		
 	$(fieldset).find('input').add($(fieldset).find('select')).each(function(){
 		
-		var exclude_storage = ['CCNum', 'CVV2', 'sea_recaptcha', 'sea_pax', 's_passengers'];
+		var exclude_storage = ['CCNum', 'CVV2', 'sea_recaptcha', 'sea_pax', 's_passengers', 's_return_date', 's_return_hour'];
+		var exclude = ['s_return_date_submit', 's_departure_date_submit'];
 		var this_field = $(this);
 		var name = null;
 		var dataid = $(this_field).attr('data-id');	
@@ -558,11 +662,15 @@ function sea_validate_fieldset(fieldset)
 			{
 				$(this_field).removeClass('invalid_field');
 			}
+			else if(exclude.includes(name))
+			{
+				$(this_field).removeClass('invalid_field');
+			}
 			else
 			{
 				invalids++;
 				$(this_field).addClass('invalid_field');
-				fields.push(name+ ' invalid');				
+				fields.push(name);				
 			}
 		}
 		else
@@ -577,7 +685,7 @@ function sea_validate_fieldset(fieldset)
 				{
 					invalids++;
 					$(this_field).addClass('invalid_field');
-					fields.push(name + ' invalid');	
+					fields.push(name);
 				}
 			}
 			else
@@ -613,7 +721,17 @@ function sea_validate_fieldset(fieldset)
 		$(fieldset).addClass('hidden');
 		return true;
 	}
-	else{
+	else
+	{
+		if(typeof ga !== typeof undefined)
+		{
+			var eventArgs = {};
+			eventArgs.eventAction = 'click';
+			eventArgs.eventLabel = fields.join();
+			eventArgs.eventCategory = 'Ferry Error';
+			ga('send', 'event', eventArgs);
+		}	
+		
 		console.log(fields);
 		return false;
 	}
@@ -673,4 +791,36 @@ function sea_recaptcha()
 		};
 		sea_checkout_widget = grecaptcha.render('sea_confirm_checkout', args);
 	}
+}
+
+function sea_focus_form(sea_form)
+{
+	$(sea_form).find('.booking_button').click(function(){
+		$(sea_form).find('[data-id="s_p_0_name"]').focus();
+	});	
+	
+	$(sea_form).find('.passengers_button').click(function(){
+		$(sea_form).find('.sea_bycard').focus();
+	});	
+	
+	$(sea_form).find('.sea_bycard').click(function(){
+		$(sea_form).find('.sea_checkout_cc').find('input[name="fname"]').focus();
+		sea_steps('Ferry Step 3');
+	});
+}
+
+function sea_accordion()
+{
+	var accordion = $('#sea_accordion');
+	
+	$(accordion).find('.sea_accordion_content').each(function(){
+		var this_content = $(this).find('li').not(':first-child');
+		var this_button = $(this).find('.pointer');
+		
+		$(this_button).click(function(){
+			$(this_content).slideToggle();
+		});
+		
+	});
+	
 }

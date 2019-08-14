@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sea Las Perlas\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-07-30 21:21+0000\n"
-"PO-Revision-Date: 2019-07-30 21:21+0000\n"
+"POT-Creation-Date: 2019-07-30 04:15+0000\n"
+"PO-Revision-Date: 2019-07-30 04:15+0000\n"
 "Last-Translator: jaimelias <jaime@aeroalbrook.com>\n"
 "Language-Team: Spanish (Spain)\n"
 "Language: es_ES\n"
@@ -34,11 +34,11 @@ msgstr "Isla Saboga"
 msgid "Departure"
 msgstr "Partida"
 
-#: public/itinerary.php:6 public/quote.php:114
+#: public/itinerary.php:6 public/quote.php:103
 msgid "Departure Date"
 msgstr "Fecha de partida"
 
-#: public/itinerary.php:7 public/quote.php:118
+#: public/itinerary.php:7 public/quote.php:107
 msgid "Departure Hour"
 msgstr "Hora de partida"
 
@@ -46,11 +46,11 @@ msgstr "Hora de partida"
 msgid "Return"
 msgstr "Regreso"
 
-#: public/itinerary.php:14 public/quote.php:128
+#: public/itinerary.php:14 public/quote.php:117
 msgid "Return Date"
 msgstr "Fecha de regreso"
 
-#: public/itinerary.php:15 public/quote.php:132
+#: public/itinerary.php:15 public/quote.php:121
 msgid "Return Hour"
 msgstr "Hora de regreso"
 
@@ -66,15 +66,15 @@ msgstr "Número"
 msgid "Subtotal"
 msgstr "Subtotal"
 
-#: public/itinerary.php:32 public/quote.php:98
+#: public/itinerary.php:32 public/quote.php:87
 msgid "Adults"
 msgstr "Adultos"
 
-#: public/itinerary.php:37 public/quote.php:88
+#: public/itinerary.php:37 public/quote.php:77
 msgid "5 to 11 Years Old"
 msgstr "5 a 11 años"
 
-#: public/itinerary.php:42 public/quote.php:81
+#: public/itinerary.php:42 public/quote.php:70
 msgid "0 to 4 Years Old"
 msgstr "0 a 4 años"
 
@@ -98,11 +98,11 @@ msgstr ""
 msgid "Age"
 msgstr "Edad"
 
-#: public/quote.php:13 public/quote.php:160
+#: public/quote.php:13 public/quote.php:149
 msgid "Book Now"
 msgstr "Reservar ahora"
 
-#: public/quote.php:13 public/quote.php:160
+#: public/quote.php:13 public/quote.php:149
 msgid "We accept"
 msgstr "Aceptamos"
 
@@ -110,30 +110,29 @@ msgstr "Aceptamos"
 msgid "Booking Details"
 msgstr "Detalles de la reserva"
 
-#: public/quote.php:31
+#: public/quote.php:28
 msgid "Prices per person"
 msgstr "Precios por persona"
 
-#: public/quote.php:32
+#: public/quote.php:29
 msgid ""
 "Adults or children of 12 years and older. $55 each way ($110 round trip)\n"
-"\t\t\t"
 msgstr ""
-"Adultos o niños de 12 años y mayores. $ 55 por trayecto ($ 110 ida y vuelta)"
+"Adultos o niños 12 años en adelante. $55 por vía ($110 el vieje redondo)"
 
-#: public/quote.php:34
+#: public/quote.php:31
 msgid "Children from 5 to 11 years old $ 44 each way ($88 round trip)"
 msgstr "Niños de 5 hasta 11 años $44 por vía ($88 el viaje redondo)"
 
-#: public/quote.php:35
+#: public/quote.php:32
 msgid "Children from 0 to 4 years old do not pay travel on their parents’ legs"
 msgstr "Niños de 0 a 4 años no pagan viajan en las piernas de sus padres"
 
-#: public/quote.php:40
+#: public/quote.php:36
 msgid "Schedules"
 msgstr "Horarios"
 
-#: public/quote.php:41
+#: public/quote.php:37
 msgid ""
 "Departing 7:30am (check-in 7am) from the Flamenco Marina, Causeway Amador, "
 "Panama City"
@@ -141,32 +140,32 @@ msgstr ""
 "Saliendo a las 7:30 a.m. (check-in a las 7 a.m.) desde Flamenco Marina, "
 "Causeway Amador, Ciudad de Panamá"
 
-#: public/quote.php:42
+#: public/quote.php:38
 msgid "Returning at 3:30pm (check-in 3:00pm) from Contadora Island"
 msgstr "Regresando a las 3:30 pm (check-in 3:00 pm) desde Isla Contadora"
 
-#: public/quote.php:43
+#: public/quote.php:39
 msgid "Returning at 3:45pm (check-in 3pm) from Saboga Island"
 msgstr "Regresando a las 3:45 pm (check-in 3pm) desde Isla Saboga"
 
-#: public/quote.php:44
+#: public/quote.php:40
 msgid "Returning at 2:00pm (check-in 1:30pm) from Viveros Island"
 msgstr "Regresando a las 2:00 pm (check-in 1:30 pm) desde Isla Viveros"
 
-#: public/quote.php:45
+#: public/quote.php:41
 msgid "Arriving at 5:00pm in Panama City"
 msgstr "Llegando a las 5:00 pm a la Ciudad de Panamá"
 
-#: public/quote.php:50
+#: public/quote.php:45
 msgid "Before Book"
 msgstr "Antes de reservar"
 
-#: public/quote.php:51
+#: public/quote.php:46
 msgid "Do not forget your original passports or panamanian ID"
 msgstr ""
 "No olvide sus pasaportes originales o identificación panameña (cédula)."
 
-#: public/quote.php:52
+#: public/quote.php:47
 msgid ""
 "There are no ATMs in Contadora. Some tour operators, hotels and restaurants "
 "do not accept Credit Cards."
@@ -174,35 +173,35 @@ msgstr ""
 "No hay cajeros automáticos en Contadora. Algunos operadores turísticos, "
 "hoteles y restaurantes no aceptan tarjetas de crédito."
 
-#: public/quote.php:53
+#: public/quote.php:48
 msgid "Make sure to arrive at least 30 minutes prior to each departure"
 msgstr "Asegúrese de llegar al menos 30 minutos antes de cada salida."
 
-#: public/quote.php:65
+#: public/quote.php:54
 msgid "Origin"
 msgstr "Origen"
 
-#: public/quote.php:71
+#: public/quote.php:60
 msgid "Destination"
 msgstr "Destino"
 
-#: public/quote.php:104
+#: public/quote.php:93
 msgid "Ferry"
 msgstr "Ferry"
 
-#: public/quote.php:106
+#: public/quote.php:95
 msgid "Round trip"
 msgstr "Viaje redondo"
 
-#: public/quote.php:107
+#: public/quote.php:96
 msgid "One way"
 msgstr "Una vía"
 
-#: public/quote.php:139 public/quote.php:150
+#: public/quote.php:128 public/quote.php:139
 msgid "Continue"
 msgstr "Continuar"
 
-#: public/quote.php:150 public/quote.php:161
+#: public/quote.php:139 public/quote.php:150
 msgid "Back"
 msgstr "Regresar"
 

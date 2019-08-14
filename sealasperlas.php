@@ -59,16 +59,16 @@ class sealasperlas {
 	
 	public static function commission()
 	{
-		return 25;
+		return 20;
 	}
 	
 	public static function destinations()
 	{
 		$output = array();
 		array_push($output, array(__('Panama City', 'sealasperlas'), 11));
-		array_push($output, array(__('Contadora Island', 'sealasperlas'), 9, array(49, 39)));
-		array_push($output, array(__('Viveros Island', 'sealasperlas'), 10, array(49, 39)));
-		array_push($output, array(__('Saboga Island', 'sealasperlas'), 13, array(49, 39)));
+		array_push($output, array(__('Contadora Island', 'sealasperlas'), 9, array(44.10, 35.10)));
+		array_push($output, array(__('Viveros Island', 'sealasperlas'), 10, array(44.10, 35.10)));
+		array_push($output, array(__('Saboga Island', 'sealasperlas'), 13, array(44.10, 35.10)));
 		return $output;
 	}
 	

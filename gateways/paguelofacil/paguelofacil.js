@@ -9,68 +9,52 @@ $(function(){
 function sea_validate_checkout(token)
 {
 	var sea_form = $('#sealasperlas_quote')[0];
-	var invalid_field = 0;
+	var invalids = 0;
+	var fields = [];
 	
 	$(sea_form).find('input[name="sea_recaptcha"]').val(token);
 	
 	$(sea_form).find('input').add('select').each(function(){
 			
 		var this_field = $(this);
-		var exclude_storage = ['CCNum', 'CVV2', 'sea_recaptcha', 'sea_pax', 's_passengers'];
-		var name = $(this_field).attr('name');		
+		var exclude_storage = ['CCNum', 'CVV2', 'sea_recaptcha', 'sea_pax', 's_passengers', 's_return_date', 's_return_hour'];
+		var exclude = ['s_return_date_submit', 's_departure_date_submit'];
+		var name = $(this_field).attr('name');
 		
-		if($(this_field).prop('tagName') == 'INPUT')
+		
+		if($(this_field).val() == '')
 		{
-			if($(this_field).attr('type') == 'text' || $(this_field).attr('type') == 'email' || $(this_field).attr('type') == 'number') 
+			if($('[name="s_ferry"]').val() == 0 && $(this_field).attr('name') == 's_return_date')
 			{
-				if($(this_field).val() == '' && !$(this_field).hasClass('optional'))
-				{
-					if($('[name="s_ferry"]').val() == 0 && $(this_field).attr('name') == 's_return_date')
-					{
-						$(this_field).removeClass('invalid_field');
-						
-						if (typeof(Storage) !== 'undefined')
-						{
-							if (typeof name !== typeof undefined && name !== false)
-							{
-								if(!exclude_storage.includes(name))
-								{
-									sessionStorage.setItem(name, $(this).val());
-								}
-							}
-						}
-					}
-					else
-					{
-						$(this_field).addClass('invalid_field');
-						invalid_field++;
-						console.log($(this_field).attr('name'));		
-					}
-				}
-				else
-				{
-					$(this_field).removeClass('invalid_field');
-					
-					if (typeof(Storage) !== 'undefined')
-					{
-						if (typeof name !== typeof undefined && name !== false)
-						{
-							if(!exclude_storage.includes(name))
-							{
-								sessionStorage.setItem(name, $(this).val());
-							}
-						}
-					}					
-				}
-			}						
+				$(this_field).removeClass('invalid_field');
+			}
+			else if(exclude.includes(name))
+			{
+				$(this_field).removeClass('invalid_field');
+			}			
+			else
+			{
+				$(this_field).addClass('invalid_field');
+				invalids++;
+				fields.push(name);
+				console.log($(this_field).attr('name'));		
+			}
 		}
-		else if($(this_field).prop('tagName') == 'SELECT')
+		else
 		{
 			if($(this_field).val() == '--')
 			{
-				$(this_field).addClass('invalid_field');
-				invalid_field++;
-				console.log($(this_field).attr('name'));							
+				if($('[name="s_ferry"]').val() == 0 && $(this_field).attr('name') == 's_return_hour')
+				{
+					$(this_field).removeClass('invalid_field');
+				}
+				else
+				{
+					$(this_field).addClass('invalid_field');
+					invalids++;
+					fields.push(name);
+					console.log($(this_field).attr('name'));					
+				}							
 			}
 			else
 			{
@@ -86,31 +70,27 @@ function sea_validate_checkout(token)
 						}
 					}
 				}				
-			}						
-		}
-		else
-		{
-			$(this_field).removeClass('invalid_field');
-			
-			if (typeof(Storage) !== 'undefined')
-			{
-				if (typeof name !== typeof undefined && name !== false)
-				{
-					if(!exclude_storage.includes(name))
-					{
-						sessionStorage.setItem(name, $(this).val());
-					}
-				}
-			}			
+			}
 		}
 	 });
 				
-	if (invalid_field == 0)
+	if (invalids == 0)
 	{
 		console.log(token);
 		console.log($(sea_form).serializeArray());	
 		$(sea_form).attr({'action': $(sea_form).attr('action')+'paguelofacil'});
 		$(sea_form).submit();
+	}
+	else
+	{
+		if(typeof ga !== typeof undefined)
+		{
+			var eventArgs = {};
+			eventArgs.eventAction = 'submit';
+			eventArgs.eventLabel = fields.join();
+			eventArgs.eventCategory = 'Ferry Error';
+			ga('send', 'event', eventArgs);
+		}		
 	}
 	return false;
 }
